@@ -7,6 +7,9 @@
 </head>
 <body>
 
+<!-- Bouton overlay retour -->
+<a id="backOverlay" href="index.html">⬅ Retour à PokéTV</a>
+
 <div id="list">
   <div class="header">Pokémon – Saison 1</div>
 </div>
@@ -17,6 +20,7 @@
     <div id="controls">
       <button id="prev">◀ Précédent</button>
       <button id="next">Suivant ▶</button>
+      <button id="openYT">Ouvrir sur YouTube</button>
     </div>
   </div>
   <div id="frame-wrap">
@@ -28,20 +32,23 @@
 let episodes = [];
 let currentIndex = 0;
 
+// Charger l'épisode sauvegardé
 function loadFromStorage() {
   const saved = localStorage.getItem('pokemon_tv_s1_index');
   if (saved !== null) currentIndex = parseInt(saved, 10);
 }
 
+// Sauvegarder l'épisode actuel
 function saveToStorage() {
   localStorage.setItem('pokemon_tv_s1_index', currentIndex);
 }
 
+// Mettre à jour le lecteur
 function updatePlayer() {
   const ep = episodes[currentIndex];
   if (!ep) return;
 
-  document.getElementById('yt').src = 'https://www.youtube.fr/embed/' + ep.id + '?autoplay=1';
+  document.getElementById('yt').src = 'https://www.youtube.com/embed/' + ep.id + '?autoplay=1';
   document.getElementById('title').textContent = `Épisode ${currentIndex + 1} – ${ep.title}`;
 
   document.querySelectorAll('.ep').forEach((el, i) => {
@@ -54,12 +61,14 @@ function updatePlayer() {
   saveToStorage();
 }
 
+// Aller à un épisode
 function goTo(index) {
   if (index < 0 || index >= episodes.length) return;
   currentIndex = index;
   updatePlayer();
 }
 
+// Charger la liste des épisodes
 fetch('episodes.json')
   .then(r => r.json())
   .then(data => {
@@ -78,10 +87,24 @@ fetch('episodes.json')
     updatePlayer();
   });
 
+// Boutons navigation
 document.getElementById('prev').onclick = () => goTo(currentIndex - 1);
 document.getElementById('next').onclick = () => goTo(currentIndex + 1);
+
+// Bouton "Ouvrir sur YouTube"
+document.getElementById('openYT').onclick = () => {
+  const ep = episodes[currentIndex];
+  localStorage.setItem("poketv_last", currentIndex);
+  window.open("https://www.youtube.com/watch?v=" + ep.id, "_blank");
+};
+
+// Affichage automatique du bouton "Retour à PokéTV"
+window.onload = () => {
+  if (localStorage.getItem("poketv_last") !== null) {
+    document.getElementById("backOverlay").style.display = "block";
+  }
+};
 </script>
 
 </body>
 </html>
-
