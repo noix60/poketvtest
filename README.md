@@ -1,5 +1,7 @@
 # Pokémon TV Local – Saison 1 (GitHub Pages)
 
+https://noix60.github.io/pokemon-tv-local/
+
 Version statique permettant de regarder la Saison 1 de Pokémon via YouTube, sans backend.
 
 ## 🚀 Déploiement GitHub Pages
