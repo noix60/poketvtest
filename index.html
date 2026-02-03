@@ -41,7 +41,7 @@ function updatePlayer() {
   const ep = episodes[currentIndex];
   if (!ep) return;
 
-  document.getElementById('yt').src = 'https://www.youtube.com/embed/' + ep.id + '?autoplay=1';
+  document.getElementById('yt').src = 'https://www.youtube.fr/embed/' + ep.id + '?autoplay=1';
   document.getElementById('title').textContent = `Épisode ${currentIndex + 1} – ${ep.title}`;
 
   document.querySelectorAll('.ep').forEach((el, i) => {
